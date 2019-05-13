@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<meta charset="utf-8">
+<html>
+<head>
+  <title>Final Project</title>
+
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400italic,600italic,700italic,200,300,400,600,700,900">
+<link rel="stylesheet" href="./data/d3.slider.css" />
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<script>
+  d3v4 = d3
+  window.d3 = null
+</script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<!-- Map 2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="./scripts/d3.slider.js"></script>
+<!-- <script src="d3.slider2.js"></script> -->
+
+<!-- Observable -->
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@observablehq/notebook-inspector@1/dist/notebook-inspector-style.css">
+
+<style>
+
+body, h1, h3, p {
+  margin: 10;
+  padding: 1;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1em;
+  color: #333;
+  font-weight: 400;
+}
+
+
+#content {
+  margin: 10px 200px 10px 200px;
+  padding: 1px;
+  /*width: 100px;*/
+  /*border: 1px solid #ccc;*/
+}
+
+/*#map {
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+}*/
+
+h1 {
+  line-height: 1em;
+  font-size: 1.75em;
+  font-weight: 900;
+  color: #000;
+}
+
+h2 {
+  margin: 0px 0px 0px 0px;
+  line-height: 0.75em;
+  font-size: 1.2em;
+  font-weight: 900;
+  color: #000;
+}
+
+h3 {
+  margin: 50px 0px 0px 0px;
+  line-height: 0.75em;
+  font-size: 1.2em;
+  font-weight: 900;
+  color: #000;
+}
+
+table, th, td {
+  margin: 10px 10px 0px 0px;
+  line-height: 1.75em;
+  font-size: 1em;
+  font-weight: 600;
+  color: #000;
+}
+
+h2.year {
+  margin: 0px 0px 0px 0px;
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+p {
+  margin: 10px 0px 0px 0px;
+}
+
+.county {
+  fill: none;
+  stroke-width: 0.1pt;
+  stroke: #C0C0C0;
+}
+
+.states {
+  fill: none;
+  stroke: #C0C0C0;
+  stroke-linejoin: round;
+}
+
+input {
+  display: block;
+  width: 200px;
+  margin: 10px 0px 0px 0px;
+}
+
+#legend text {
+  font-size: 0.9em;
+  color: #333;
+  font-weight: 400;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 7px;
+  font-size: 0.9em;
+  pointer-events: none;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  -moz-box-shadow:    3px 3px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.25);
+  box-shadow:         3px 3px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tooltip p {
+  margin: 0;
+  padding: 0;
+}
+
+.tooltip table {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+.wide {
+  width: 140px;
+}
+
+/*Map 2 styling*/
+path {
+  fill: none;
+  stroke: #333;
+  stroke-width: .5px;
+}
+
+.land-boundary {
+  stroke: #C0C0C0;
+}
+
+.county-boundary {
+  stroke-width: 0.1pt;
+  stroke: #C0C0C0;
+}
+
+.state-boundary{
+  stroke: #C0C0C0;
+}
+
+.site {
+  stroke-width: .5px;
+  stroke: #332200;
+  fill: #e69900;
+}
+
+#slider3 {
+  margin: 0px 0 10px 20px;
+  width: 900px;
+}
+
+/*Stacked bar chart*/
+.axis text {
+  font: 10px;
+}
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis--x path {
+  display: none;
+}
+
+/*Percent Change Graph*/
+/*hides tick marks on bottom xaxis */
+.axisChange line{
+      visibility:hidden;
+    }
+
+/* hides bottom xaxis line*/
+.axisChange .domain {
+  display: none;
+}
+
+.axisChange {
+    font: 13px sans-serif;
+  }
+
+  .yUnits {
+    font: 14px sans-serif;
+  }
+
+  .caption {
+    font: 12px sans-serif;
+  }
+
+.chartDisplayTitle{
+  fill:#354B5F;
+  font-weight: bold;
+  font: 20px sans-serif;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="content">
+  <center>
+    <h1><font size="20">Migration of Breweries Across the United States</font></h1>
+    <h1><font size="5">11.154 Final Project by:</font></h1>
+    <h1><font size="5">Bret Stepanek and Jackson Lubin</font></h1>
+  </center>
+  <p>
+    We would like to introduce you to a data-based analysis of the craft beer explosion revolutionizing the American beer market. We will define craft beer as Based on US Census data, the number of people emplyed in a brewery in America has doubled between 2007 and 2016 (the most recently published year), which is far higher growth than the rest of the economy.
+
+  <center>
+    </p>
+      <table>
+        <tr>
+          <th align="right">31 Gallons</th> <th>=</th> <th align="left">1 Barrel</th>
+        </tr>
+        <tr>
+          <th align="right">1 Barrel</th> <th>=</th> <th align="left">330 Beers</th>
+        </tr>
+        <tr>
+          <th align="right">1 Beer</th> <th>=</th> <th align="left">12 fl. oz.</th>
+        </tr>
+      </table>
+    </p>
+  </center>
+
+  <p> 
+  </p>
+
+  <center>
+    <h1>Number of Breweries</h1>
+    <div id="numberStacked"></div>
+  </center>
+  <script src="./scripts/number_stacked_bar.js"></script>
+
+  <p>
+    More text
+  </p>
+
+  <center>
+    <h1>Beer Production by Size of Brewery</h1>
+    <div id="productionStacked"></div>
+  </center>
+  <script src="./scripts/production_stacked_bar.js"></script>
+  
+  <p>
+    More text
+  </p>
+
+  <center>
+    <h1>Yearly Percent Change</h1>
+    <div id="changeGraph"></div>
+  </center>
+  <script src="./scripts/change_graph.js"></script>
+ 
+  <p>
+    More text
+  </p>
+
+  <center>
+      <h1>Breweries Started per Year</h1>
+      <div id="slider3"></div>
+      <!-- <h2 id="yearText"></h2> -->
+      <h3 id="yearTextData"></h3>
+      <div id="mapTimeline"></div>
+    </center>
+  <script src="./scripts/mapTimeline.js"></script>
+
+  <p>
+    More text
+  </p>
+
+  <center>
+    	<h1>Craft Brewery Production by County from 2008 to 2017</h1>
+      <h2>(Major nationwide breweries not included)</h2>
+    </center>
+    	<h2 class="year"></h2>
+    	<div class="slider"></div>
+      <div id="slider"></div>
+      <!-- <button id="play-button">Play</button> -->
+      <center>
+    	<div id="heatMap"></div>
+    </center>
+  <script src="./scripts/heatMap.js"></script>
+
+  <p>
+    More text
+  </p>
+
+<center>
+    <h1>Craft Brewery Production by County from 2008 to 2017</h1>
+    <h2>(Major nationwide breweries not included)</h2>
+</center>
+
+    <h2 class="year"></h2>
+    <div class="slider"></div>
+    <div id="slider"></div>
+    <!-- <button id="play-button">Play</button> -->
+  <center>
+    <div id="heatMap"></div>
+  </center>
+
+  <p>
+    text
+  </p>
+  <center><h1>Appendix</h1></center>
+
+  <center>
+    <h1>Total Beer Industry Employment</h1>
+    <div id="employmentStacked"></div>
+  </center>
+  <script src="./scripts/employment_stacked.js"></script>
+
+ <center>
+    <h1>Average Salary of Breweries</h1>
+    <div id="salaryGraph"></div>
+  </center>
+  <script src="./scripts/average_salary.js"></script>
+
+  <center><h1>Sources</h1></center>
+
+  <p>
+    Visualizations were built using Mike Bostock's d3 library and were inspired specifically by the following projects:<br>
+    <li> Doug Dowson's <a href="http://bl.ocks.org/dougdowson/9832019">Choropleth</a> </li>
+    <li> Mike Bostock's <a href="https://bl.ocks.org/mbostock/eec4a6cda2f573574a11">Map Pan & Zoom II</a> </li>
+    <li> al's <a href="http://bl.ocks.org/cmdoptesc/fc0e318ce7992bed7ca8">D3: Map Timeline</a> </li>
+    <li> Mike Bostock's <a href="https://bl.ocks.org/mbostock/1134768">Stacked Bar Chart</a> </li>
+    <li> Raymond DiLorenzo's <a href="https://bl.ocks.org/Rdilorenzo73/d3ef804fca7ed0ddaf67a0fb74f76682">D3 Grouped Bar Chart</a> </li>
+  </p>
+  <p>
+    Data from:<br>
+    <li><strong>Brewers Association:</strong> This data was used to create the choropleth. We were provided with production by brewery from 2008 to 2017 from the Brewers Association. This data was combined with geographical data scrapped from the Brewers Association website to construct a unified data set. the cleaning process is as follows: zip codes were scrapped from the site (mapping to the brewery's name) and run in a python script to obtain state and county information. The county information was then mapped to a fips code so that the final, cleaned data set had brewery name, fips code and production from 2008 to 2017 where it was used to create the choropleth.</li>
+    <li><strong>Dun & Bradstreet:</strong> This data was used to create the timeline map. Similar to the Brewers Association data, this data provided us with a zip code for each brewery which was then run through a similar python script to get latitude and longitude coordinates. This was combined with the original data set and cleaned to produce a data set containing brewery name, year founded, latitude and longitude. This was then used to create the timeline map. </li>
+    <li><strong>U.S. Census Data:</strong> This data was used to create the stacked and grouped bar charts. The census data was cleaned by combining all spreadsheets (one for each year) into a single sheet and running a python script to convert to a properly formatted csv file. </li>
+  </p>  
+<!-- <script type="module">
+
+import {Inspector, Runtime} from "https://unpkg.com/@observablehq/notebook-runtime@1?module";
+import notebook from "./number_of_breweries.js";
+
+Runtime.load(notebook, Inspector.into(document.body));
+
+</script> -->
+  
+<!-- <script src="heatMap2.js"></script> -->
+</div>
+</body>
+</html>
