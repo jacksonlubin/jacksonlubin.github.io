@@ -1,16 +1,6 @@
-/*
-Derived from:
-
-Grouped Bar Chart
-https://bl.ocks.org/mbostock/3887051
-
-Bar Chart with Negative Values
-https://bl.ocks.org/mbostock/2368837
-
-*/
 var tooltipFormatSalary = d3v4.format("$,");
 var marginSalary = {top: 20, right: 200, bottom: 80, left: 50},
-    widthSalary = 1200 - marginSalary.left - marginSalary.right,
+    widthSalary = 1000 - marginSalary.left - marginSalary.right,
     heightSalary = 500 - marginSalary.top - marginSalary.bottom;
 
 //chart setup
@@ -65,7 +55,6 @@ d3v4.tsv("./data/average_salary.tsv", function(error, data) {
   //use new array from just the year values for the bottom x-axis
   x0Salary.domain(data.map( d =>  d.year ));
 
-  //array of quarterly value names, fitted in the available bottom categories (x0.bandwidth())
   x1Salary.domain(subCategoriesSalary).rangeRound([0, x0Salary.bandwidth()])
 
   // Add bar chart

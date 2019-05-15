@@ -1,16 +1,6 @@
-/*
-Derived from:
-
-Grouped Bar Chart
-https://bl.ocks.org/mbostock/3887051
-
-Bar Chart with Negative Values
-https://bl.ocks.org/mbostock/2368837
-
-*/
 var tooltipFormatChange = d3v4.format(".1%");
 var marginChange = {top: 20, right: 200, bottom: 80, left: 50},
-    widthChange = 1200 - marginChange.left - marginChange.right,
+    widthChange = 1000 - marginChange.left - marginChange.right,
     heightChange = 500 - marginChange.top - marginChange.bottom;
 
 //chart setup
@@ -56,12 +46,13 @@ d3v4.tsv("./data/changeData.tsv", function(error, data) {
   //examine first object, retrieve the keys, and discard the first key
   //return resulting array of keys
   var subCategories = Object.keys(data[0]).slice(1);
-  var legendTextChange = Object.keys(data[0]).slice(1).reverse();
+  // var legendTextChange = Object.keys(data[0]).slice(1).reverse();
+var legendTextChange = ["Micro", "Medium", "Regional", "National"]
+
 
   //use new array from just the year values for the bottom x-axis
   x0Change.domain(data.map( d =>  d.year ));
 
-  //array of quarterly value names, fitted in the available bottom categories (x0.bandwidth())
   x1Change.domain(subCategories).rangeRound([0, x0Change.bandwidth()])
 
   // Add bar chart
@@ -70,7 +61,7 @@ d3v4.tsv("./data/changeData.tsv", function(error, data) {
       .enter().append("g")
         .attr("transform", d => "translate(" + x0Change(d.year) + ",0)" )
       selection.selectAll("rect")
-      //Use map function with the subCategories array and the Econ2 array
+      //Use map function with the subCategories array
        .data(function(d) { return subCategories.map(function(key) { return {key: key, value: d[key]}; }); })
         .enter().append("rect")
         .attr("x", d => x1Change(d.key) )
@@ -85,17 +76,6 @@ d3v4.tsv("./data/changeData.tsv", function(error, data) {
         .style("top", (d3v4.event.pageY-10)+"px").style("left",(d3v4.event.pageX+10)+"px")
         .text(tooltipFormatChange(d.value)+' change')})
      .on("mouseout", function(){ tooltipChange.style("visibility", "hidden")});
-      //can not nest the text element inside the rect element !
-      // selection.selectAll("text")
-      //    .data(function(d) { return subCategories.map(function(key) { return {key: key, value: d[key]}; }); })
-      //     .enter().append("text")
-      //     .attr("x", d => x1Change(d.key) )
-      // //offset the position of the y value (positive / negative) to have the text over/under the rect bar
-      //     .attr("y", d => d.value<=0 ? yChange(0) - (yChange(4) - (Math.abs(yChange(d.value) - yChange(0)) + 20)) : yChange(d.value) - 10)
-      //     .style('fill', d => zChange(d.key))
-      //     .style('font-size', '0.75em')
-      // //make sure one just decimal place is displayed
-      //     .text(d => Number.parseFloat(d.value).toFixed(1))
 
   //add the x-axis
   gChange.append("g")

@@ -1,6 +1,6 @@
-var margin = {top: 20, right: 20, bottom: 20, left: 20};
+var margin = {top: 25, right: 25, bottom: 20, left: 20};
 	widthHeat = 1000 - margin.left - margin.right,
-	heightHeat = 600 - margin.top - margin.bottom,
+	heightHeat = 500 - margin.top - margin.bottom,
 	scale0 = widthHeat,
 	barrelsFormat = d3.format(",.2r"),
 	percentFormat = d3.format(".1%");

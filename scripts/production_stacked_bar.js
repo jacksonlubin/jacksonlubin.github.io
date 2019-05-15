@@ -26,11 +26,12 @@ var legendColorsProduction = ["#332200","#996600","#ffaa00","#ffd480"];
 // var legendColorsProduction = ["#4d3300", "#996600", "#e69900", "#ffcc66"];
 // var colsProduction = ["6M+ Barrels", "1M to 6M Barrels", "500,001 to 1M Barrels", "100,000 to 500,000 Barrels", "60,001 to 100,000 Barrels",  "30,001 to 60,000 Barrels", "15,001 to 30,000 Barrels", "7,501 to 15,000 Barrels", "1,001 to 7,500 Barrels", "1 to 1,000 Barrels"]
 var colsProduction = ["1M+ Barrels", "100,001 to 1M Barrels", "30,001 to 100,000 Barrels", "1 to 30,000 Barrels"]
+var legendTextProduction = ["Micro", "Medium", "Regional", "National"]
 // var colsProduction = ["15,001+ Barrels", "7,501 to 15,000 Barrels", "1,001 to 7,500 Barrels", "1 to 1,000 Barrels"]
-var legendTextProduction = []
-  for (var i=0; i<colsProduction.length; i++){
-    legendTextProduction[i] = colsProduction[colsProduction.length-i-1]
-  }
+// var legendTextProduction = []
+//   for (var i=0; i<colsProduction.length; i++){
+//     legendTextProduction[i] = colsProduction[colsProduction.length-i-1]
+//   }
 
 var svgProduction = d3.select("#productionStacked").append("svg")
     .attr("width", widthProduction + marginProduction.left + marginProduction.right)

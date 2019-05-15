@@ -1,12 +1,12 @@
-var marginTimeline = {top: 10, right: 20, bottom: 20, left: 20};
+var marginTimeline = {top: 0, right: 20, bottom: 0, left: 20};
     widthTimeline = 960 - marginTimeline.left - marginTimeline.right,
-    heightTimeline = 600 - marginTimeline.top - marginTimeline.bottom,
+    heightTimeline = 450 - marginTimeline.top - marginTimeline.bottom,
     scale0Timeline = widthTimeline;
 
 var mapPath = "./data/us.json";
 
 var projectionTimeline = d3.geo.albersUsa()
-    .scale(1000)
+    .scale(990)
     .translate([widthTimeline / 2, heightTimeline / 2]);
 
 var path = d3.geo.path()
@@ -19,7 +19,7 @@ var svgTimeline = d3.select("#mapTimeline").append("svg")
       .attr("transform", "translate(" + marginTimeline.left + "," + marginTimeline.top + ")");
 
 var yearText = d3.select("#yearText").text("1829");
-var yearTextData = d3.select("#yearTextData").text(" ");
+var yearTextData = d3.select("#yearTextData").text("1 new brewery started in 1829");
 
 queue()
   .defer(d3.json, "./data/us.json")
