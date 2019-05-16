@@ -1,10 +1,10 @@
-
+// var screenWidth = 960
 // var parseDate = d3.time.format("%Y").parse;
 var tooltipFormatNumber = d3.format(",.1");
 
 var marginNumber = {top: 20, right: 300, bottom: 30, left: 20},
-    widthNumber = 960 - marginNumber.left - marginNumber.right,
-    heightNumber = 590 - marginNumber.top - marginNumber.bottom;
+    widthNumber = screenWidth - marginNumber.left - marginNumber.right,
+    heightNumber = 0.615*screenWidth - marginNumber.top - marginNumber.bottom;
 
 var xNumber = d3.scale.ordinal()
     .rangeRoundBands([0, widthNumber]);

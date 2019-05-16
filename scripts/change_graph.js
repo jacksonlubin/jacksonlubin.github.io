@@ -1,7 +1,9 @@
+// var screenWidth = 960
+
 var tooltipFormatChange = d3v4.format(".1%");
 var marginChange = {top: 20, right: 200, bottom: 80, left: 50},
-    widthChange = 1000 - marginChange.left - marginChange.right,
-    heightChange = 500 - marginChange.top - marginChange.bottom;
+    widthChange = screenWidth - marginChange.left - marginChange.right,
+    heightChange = 0.52*screenWidth - marginChange.top - marginChange.bottom;
 
 //chart setup
 var svgChange = d3v4.select("#changeGraph").append("svg")

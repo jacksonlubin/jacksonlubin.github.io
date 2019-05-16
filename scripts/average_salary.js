@@ -1,7 +1,9 @@
+// var screenWidth = 960
+
 var tooltipFormatSalary = d3v4.format("$,");
 var marginSalary = {top: 20, right: 200, bottom: 80, left: 50},
-    widthSalary = 1000 - marginSalary.left - marginSalary.right,
-    heightSalary = 500 - marginSalary.top - marginSalary.bottom;
+    widthSalary = screenWidth - marginSalary.left - marginSalary.right,
+    heightSalary = 0.52*screenWidth - marginSalary.top - marginSalary.bottom;
 
 //chart setup
 var svgSalary = d3v4.select("#salaryGraph").append("svg")

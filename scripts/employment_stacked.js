@@ -1,8 +1,10 @@
+// var screenWidth = 960
+
 var tooltipFormatEmployment = d3.format(".2s");
 
 var marginEmployment = {top: 20, right: 300, bottom: 30, left: 20},
-    widthEmployment = 960 - marginEmployment.left - marginEmployment.right,
-    heightEmployment = 500 - marginEmployment.top - marginEmployment.bottom;
+    widthEmployment = screenWidth - marginEmployment.left - marginEmployment.right,
+    heightEmployment = 0.52*screenWidth - marginEmployment.top - marginEmployment.bottom;
 
 var xEmployment = d3.scale.ordinal()
     .rangeRoundBands([0, widthEmployment]);

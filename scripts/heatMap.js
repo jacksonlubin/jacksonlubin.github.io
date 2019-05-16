@@ -1,6 +1,9 @@
+// var screenWidth = 960
+
+
 var margin = {top: 25, right: 25, bottom: 20, left: 20};
-	widthHeat = 1000 - margin.left - margin.right,
-	heightHeat = 500 - margin.top - margin.bottom,
+	widthHeat = screenWidth - margin.left - margin.right,
+	heightHeat = 0.615*screenWidth - margin.top - margin.bottom,
 	scale0 = widthHeat,
 	barrelsFormat = d3.format(",.2r"),
 	percentFormat = d3.format(".1%");
@@ -120,7 +123,7 @@ function ready(error, data, us) {
 			.attr("transform", function(d, i) { return "translate(" + i * 51 + ",0)"; });
 
 	legenditem.append("rect")
-		.attr("x", widthHeat - 400)
+		.attr("x", widthHeat - 420)
 		.attr("y", -7)
 		.attr("width", 50)
 		.attr("height", 6)
@@ -128,7 +131,7 @@ function ready(error, data, us) {
 		.style("fill", function(d, i) { return legendColorsHeatMap[i]; });
 
 	legenditem.append("text")
-		.attr("x", widthHeat - 370)
+		.attr("x", widthHeat - 390)
 		.attr("y", -10)
 		.style("text-anchor", "middle")
 		.text(function(d, i) { return legendTextHeatMap[i]; });

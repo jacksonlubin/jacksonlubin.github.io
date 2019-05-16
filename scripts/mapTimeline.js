@@ -1,12 +1,14 @@
+// var screenWidth = 960
+
 var marginTimeline = {top: 0, right: 20, bottom: 0, left: 20};
-    widthTimeline = 960 - marginTimeline.left - marginTimeline.right,
-    heightTimeline = 450 - marginTimeline.top - marginTimeline.bottom,
+    widthTimeline = screenWidth - marginTimeline.left - marginTimeline.right,
+    heightTimeline = 0.469*screenWidth - marginTimeline.top - marginTimeline.bottom,
     scale0Timeline = widthTimeline;
 
 var mapPath = "./data/us.json";
 
 var projectionTimeline = d3.geo.albersUsa()
-    .scale(990)
+    .scale(screenWidth)
     .translate([widthTimeline / 2, heightTimeline / 2]);
 
 var path = d3.geo.path()
